@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>youGmiCalendar</title>
+    <link rel="stylesheet" href="./you_gmi_damo.css">
+    <script type="text/javascript" src="../lib/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="./you_gmi_demo.js"></script>
+</head>
+
+<body>
+    <div id="you_gmi_calendar"></div>
+    
+    <script>
+        let calendar = new youGmiCalendar ({
+            elId : "you_gmi_calendar",
+            dateStr : "2020-02-03", // 기준일
+            type : "W" // 달력 타입 (M : 월 달력 , W : 주 달력)
+            //,selectAble = true // 달력 선택 가능 여부
+            //,eventAble = true // 달력 이벤트 추가 가능여부
+        });
+    </script>
+
+</body>
+
+</html>
