@@ -5,9 +5,15 @@ let youGmiCalendar = function (option) {
     this.elId = option.elId;
     if (!this.elId) return false;
 
-    this.dateStr = new Date(option.dateStr);
-    this.type = option.type;
- 
+    //디폴트
+    this.dateStr = new Date();
+    this.type = "M";
+    this.selectAble = false;
+
+    if (option.dateStr) this.dateStr = new Date(option.dateStr);
+    if (option.type) this.type = option.type;
+    if (option.selectAble) this.selectAble = option.selectAble;
+   
     // 주 캘린더 마크업 
     this.mkWeekCalenar = function(){
         var weekDateList = this.getWeek();
@@ -29,9 +35,9 @@ let youGmiCalendar = function (option) {
             else if (weekDateList[i].getDay() == 5) day = "금";
             else if (weekDateList[i].getDay() == 6) day = "토";
             tableHtml += `
-                <tr>
-                    <th class="cell-day type-week">${day}</th>
-                    <td class="cell-day type-week">${weekDateList[i].getDate()}일</td>
+                <tr class="cell-day type-week">
+                    <th>${day}</th>
+                    <td>${weekDateList[i].getDate()}일</td>
                     <td></td>
                 </tr>
             `;
@@ -125,17 +131,56 @@ let youGmiCalendar = function (option) {
         }
         return monthArr;
     }
+
+    // 달력 선택 함수
+    this.selectEvent = function(){
+        $(document).on("click",".cell-day",function(){
+            if($(this).hasClass("event-active") || $(this).text() == "") {
+                $(this).removeClass("event-active")
+            } else {
+                $(this).addClass("event-active")
+            }
+        });
+    }
+
+    //선택한 일자 모두 가져오기 return type Date
+    this.getSelectedDate = function(){
+        var aa = this.getMonth();
+        $(document).on("click",".cell-day",function(){
+            var dayArr = []; 
+            $(".cell-day").each(function(i,e) {
+                if($(this).hasClass("event-active")) {
+                    for(var i = 0; i < aa.length; i++) {
+                        if($(this).text() == aa[i].getDate()) {
+                            dayArr.push(aa[i]);
+                        }
+                    }
+                }
+            })
+            console.log('dayArr: ', dayArr);
+        });
+        // return dayArr;
+    };
+
+    // 초기화 함수
     this.init = function(){
+        // 달력타입
         if (this.type == "M") this.mkMonthCalenar();
         else if (this.type == "W") this.mkWeekCalenar();
+        
+        // 달력선택 
+        if (this.selectAble) this.selectEvent();
+
+        this.getSelectedDate();
     } 
+
     // //선택한 일자 모두 가져오기 return type Date
     // this.getSelectedDate();
     // //이벤트 등록 return type void
     // this.setEvent({
     //     date: "2019-05-20",
     //     desc: "생일"
-    // });6
+    // });
     // //모든 이벤트 조회 return type Array<Date>
     // this.getAllEvent();
     // //지정 일자 이벤트 조회 return type eventObject

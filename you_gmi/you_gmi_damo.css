@@ -6,6 +6,7 @@ table {border-spacing:0;}
 
 .ygm-calendar-wrap .ygm-c-view-box {border-top:1px solid #000;}
 .ygm-calendar-wrap .ygm-c-content {width:100%;}
+.ygm-calendar-wrap .ygm-c-content .cell-day.event-active {background: #ccc;}
 
 /*type-week*/
 .ygm-calendar-wrap .ygm-c-content.type-week .ygm-c-body th {border-bottom:1px solid #ccc;border-right:1px solid #ccc;}
