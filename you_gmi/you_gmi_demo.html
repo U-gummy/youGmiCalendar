@@ -12,7 +12,7 @@
 
 <body>
     <div id="you_gmi_calendar"></div>
-    
+    <button type="button" id="btn">aaa</button>
     <script>
         let calendar = new youGmiCalendar ({
             elId : "you_gmi_calendar",
@@ -21,6 +21,13 @@
             selectAble : true // 달력 선택 가능 여부
             //,eventAble = true // 달력 이벤트 추가 가능여부
         });
+        $("#btn").click(function(){
+            calendar.getSelectedDate();
+        })
+        calendar.addEvent({title: "테스트", date : "2020-02-04" , desc : "테스트일정입니다."});
+        calendar.addEvent({title: "테스트", date : "2020-02-04" , desc : "테스트일정입니다."});
+
+        calendar.getAllEvent("2020-02-04");
     </script>
 
 </body>

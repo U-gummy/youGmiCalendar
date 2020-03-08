@@ -20,3 +20,6 @@ table {border-spacing:0;}
 .ygm-calendar-wrap .ygm-c-content.type-month .ygm-c-body {text-align:right;}
 .ygm-calendar-wrap .ygm-c-content.type-month .ygm-c-body td {height:70px;padding:5px;border-right:1px solid #ccc;border-bottom:1px solid #ccc;vertical-align:top;}
 .ygm-calendar-wrap .ygm-c-content.type-month .ygm-c-body td:last-child {border-right:0;}
+
+/*event-badge*/
+.ygm-calendar-wrap .ygm-c-content .event-badge {display:block;width:8px;height:8px;border-radius:50%; background:rgb(136, 127, 0);font-size:0;}
