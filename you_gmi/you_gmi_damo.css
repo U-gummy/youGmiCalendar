@@ -3,6 +3,10 @@ table {border-spacing:0;}
 .ygm-calendar-wrapper {width:100%;}
 
 .ygm-calendar-wrap .ygm-c-toolbar {text-align:center;}
+.ygm-calendar-wrap .ygm-c-toolbar:after {content:'';display:block;clear:both;}
+.ygm-calendar-wrap .ygm-c-toolbar .title {display:inline-block;}
+.ygm-calendar-wrap .ygm-c-toolbar .btn-change.prev {float:left;}
+.ygm-calendar-wrap .ygm-c-toolbar .btn-change.next {float:right;}
 
 .ygm-calendar-wrap .ygm-c-view-box {border-top:1px solid #000;}
 .ygm-calendar-wrap .ygm-c-content {width:100%;}

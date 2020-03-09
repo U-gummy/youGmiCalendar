@@ -19,16 +19,27 @@
             elId : "you_gmi_calendar",
             dateStr : "2020-02-03", // 기준일
             type : "M", // 달력 타입 (M : 월 달력 , W : 주 달력)
+            isChangeBtn : true,
             selectAble : true // 달력 선택 가능 여부
             //,eventAble = true // 달력 이벤트 추가 가능여부
         });
+
         $("#btn").click(function(){
             calendar.getSelectedDate();
         })
-        calendar.addEvent({title: "테스트", date : "2020-02-04" , desc : "테스트일정입니다."});
-        calendar.addEvent({title: "테스트", date : "2020-02-04" , desc : "테스트일정입니다."});
 
-        calendar.getAllEvent("2020-02-04");
+        // 이벤트 등록
+        calendar.addEvent({title: "테스트01", date : "2020-02-04" , desc : "01_테스트일정입니다."});
+        calendar.addEvent({title: "테스트02", date : "2020-02-04" , desc : "02_테스트일정입니다."});
+        calendar.addEvent({title: "테스트03", date : "2020-02-05" , desc : "03_테스트일정입니다."});
+        calendar.addEvent({title: "테스트04", date : "2020-02-09" , desc : "04_테스트일정입니다."});
+        calendar.addEvent({title: "테스트05", date : "2020-02-09" , desc : "05_테스트일정입니다."});
+        // 해당일자 이벤트 조회
+        calendar.getEvent("2020-02-04");
+        calendar.getEvent("2020-02-08");
+
+        // 해당 월,주 모든 이벤트 조회
+        calendar.getAllEvent();6
     </script>
 
 </body>

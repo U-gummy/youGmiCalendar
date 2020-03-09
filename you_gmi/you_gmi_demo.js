@@ -32,22 +32,26 @@ let youGmiCalendar = function (option) {
     String.prototype.string = function(len){var s = '', i = 0; while (i++ < len) { s += this; } return s;};
     String.prototype.zf = function(len){return "0".string(len - this.length) + this;};
     Number.prototype.zf = function(len){return this.toString().zf(len);};
-    this.elId = option.elId;
+    
+    
+    this.elId = option.elId; 
     if (!this.elId) return false;
 
     //디폴트
-    this.dateStr = new Date();
-    this.type = "M";
-    this.selectAble = false;
+    this.dateStr = new Date(); // 보여지는 기준일 
+    this.type = "M"; // 캘린더 타입
+    this.selectAble = false; // 달력선택 가능여부
+    this.isChangeBtn - false; // 이전다음버튼 유무
 
-    if (option.dateStr) this.dateStr = new Date(option.dateStr);
-    if (option.type) this.type = option.type;
-    if (option.selectAble) this.selectAble = option.selectAble;
+    if (option.dateStr) this.dateStr = new Date(option.dateStr); // 보여지는 기준일 
+    if (option.type) this.type = option.type; // 캘린더 타입
+    if (option.selectAble) this.selectAble = option.selectAble; // 달력선택 가능여부
+    if (option.isChangeBtn) this.isChangeBtn = option.isChangeBtn; // 이전다음버튼 유무
    
     // 주 캘린더 마크업 
     this.mkWeekCalenar = function(){
         var weekDateList = this.getWeek();
-        var headTxt = weekDateList[0].getMonth()+1; // 확인이 필요하지요 (몇월 몇번쨰 주 를 써야할까 .... )
+        var headTxt = weekDateList[0].getMonth()+1;
         var toolbarHtml = ``;
         var tableHtml = ``;
         toolbarHtml += ` <div class="ygm-c-toolbar"><h2>${headTxt}월</h2></div>`;
@@ -95,7 +99,16 @@ let youGmiCalendar = function (option) {
         var length = MonthDateList.length-1;
         var endDay = 6 - (MonthDateList[length].getDay());
         var total = startDay + length + endDay;
-        toolbarHtml += ` <div class="ygm-c-toolbar"><h2>${headTxt}</h2></div>`;
+        if(this.isChangeBtn) { //이전다음버튼 true  
+            toolbarHtml += ` <div class="ygm-c-toolbar">
+                                <button type="button" class="btn-change prev">이전</button>
+                                <h2 class="title">${headTxt}</h2>
+                                <button type="button" class="btn-change next">다음</button>
+                            </div>`;
+        } else {
+
+            toolbarHtml += ` <div class="ygm-c-toolbar"><h2 class="title">${headTxt}</h2></div>`;
+        }
         tableHtml += `
             <table class="ygm-c-content type-month">
                 <thead class="ygm-c-head">
@@ -184,7 +197,6 @@ let youGmiCalendar = function (option) {
     }
     //이벤트 등록 
     this.addEvent = function(event){
-        console.log('event: ', event);
         var tempThis = this;
         $(".cell-day").each(function(i,item){
             var html = ``;
@@ -192,7 +204,6 @@ let youGmiCalendar = function (option) {
                 html += `<span class="event-badge" data-event='${JSON.stringify(event)}'>${event.title}</span>`;
                 if (tempThis.type == "W") {
                     $(item).find(".remarks").append(html);
-                    console.log("wwwww");
                 }else {
                     $(item).append(html);
                 }
@@ -200,8 +211,8 @@ let youGmiCalendar = function (option) {
         })
 
     };
-     //모든 이벤트 조회 return type Array<Date>
-     this.getAllEvent = function(eventDate){
+     //해당날짜의 이벤트 조회 return type Array Date
+     this.getEvent = function(eventDate){
          var eventList = [];
         $(".event-badge").each(function(i,item){
             var event = JSON.parse($(item).attr("data-event"));
@@ -209,10 +220,31 @@ let youGmiCalendar = function (option) {
                 eventList.push(event);
             }
         });
-        console.log(eventList);
+        console.log("eventList",eventDate,eventList);
      }
 
+     //모든 이벤트 조회 return type Array Date
+     this.getAllEvent = function(){
+        var eventAllList = [];
+       $(".event-badge").each(function(i,item){
+           var event = JSON.parse($(item).attr("data-event"));
+           eventAllList.push(event);
+       });
+       console.log("eventAllList",eventAllList);
+    }
 
+    this.Eventbind = function(){
+
+        $(document).on("click",".btn-change",function(e){
+            if ($(e.target).hasClass("prev")) {
+                console.log("prev");
+                
+            } else if ($(e.target).hasClass("next")) {
+                console.log("next");
+            }
+        }.bind(this))
+
+    }
     // 초기화 함수
     this.init = function(){
         // 달력타입
@@ -223,6 +255,7 @@ let youGmiCalendar = function (option) {
         if (this.selectAble) this.selectEvent();
 
         this.getSelectedDate();
+        this.Eventbind(); // 이벤트
     } 
 
     // //모든 이벤트 조회 return type Array<Date>
