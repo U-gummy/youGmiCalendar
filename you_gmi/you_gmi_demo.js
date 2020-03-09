@@ -116,7 +116,7 @@ let youGmiCalendar = function (option) {
         }
         tableHtml += `
             <table class="ygm-c-content type-month">
-                <thead class="ygm-c-head">
+                <thead class="ygm-c-head"> 
                     <tr>
         `;
         for(var i = 0; i < 7; i++) {
