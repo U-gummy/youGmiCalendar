@@ -1,5 +1,3 @@
-
-
 let youGmiCalendar = function (option) {
     Date.prototype.format = function(f) {
         if (!this.valueOf()) return " ";
@@ -57,9 +55,11 @@ let youGmiCalendar = function (option) {
         toolbarHtml += ` <div class="ygm-c-toolbar"><h2>${headTxt}월</h2></div>`;
         tableHtml += `
             <table class="ygm-c-content type-week">
-                <tbody class="ygm-c-body">
+            <thead class="ygm-c-head">
+            <tr>
+            <th class="cell-day type-week">시간</th>
         `;
-        for (var i = 0; i < weekDateList.length; i++) {
+        for(var i = 0; i < 7; i++) {
             var day = "";
             if (weekDateList[i].getDay() == 0) day = "일";
             else if (weekDateList[i].getDay() == 1) day = "월";
@@ -68,13 +68,18 @@ let youGmiCalendar = function (option) {
             else if (weekDateList[i].getDay() == 4) day = "목";
             else if (weekDateList[i].getDay() == 5) day = "금";
             else if (weekDateList[i].getDay() == 6) day = "토";
-            tableHtml += `
-                <tr class="cell-day type-week" date="${weekDateList[i].format('yyyy-MM-dd')}">
-                    <th>${day}</th>
-                    <td>${weekDateList[i].getDate()}일</td>
-                    <td class="remarks"></td>
-                </tr>
-            `;
+            tableHtml += `<th class="cell-day type-week">${day}</th>`;
+        }
+        tableHtml += `</tr></thead>
+                <tbody class="ygm-c-body">
+        `;
+        for(var i = 0; i < 24; i++) {
+            tableHtml += `<tr>`;
+            tableHtml += i < 10 ? `<td>0${i}시</td>` : `<td>${i}시</td>`;
+            for (var j = 0; j < 7; j++) {
+                tableHtml += `<td></td>`;
+            }
+            tableHtml += `</tr>`;
         }
         tableHtml += `
                 </tbody>
@@ -100,14 +105,14 @@ let youGmiCalendar = function (option) {
         var endDay = 6 - (MonthDateList[length].getDay());
         var total = startDay + length + endDay;
         if(this.isChangeBtn) { //이전다음버튼 true  
-            toolbarHtml += ` <div class="ygm-c-toolbar">
+            toolbarHtml += `<div class="ygm-c-toolbar">
                                 <button type="button" class="btn-change prev">이전</button>
                                 <h2 class="title">${headTxt}</h2>
                                 <button type="button" class="btn-change next">다음</button>
-                            </div>`;
+                            </div>
+            `;
         } else {
-
-            toolbarHtml += ` <div class="ygm-c-toolbar"><h2 class="title">${headTxt}</h2></div>`;
+            toolbarHtml += `<div class="ygm-c-toolbar"><h2 class="title">${headTxt}</h2></div>`;
         }
         tableHtml += `
             <table class="ygm-c-content type-month">
