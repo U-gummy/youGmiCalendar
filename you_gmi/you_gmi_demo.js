@@ -1,7 +1,37 @@
 
 
 let youGmiCalendar = function (option) {
-
+    Date.prototype.format = function(f) {
+        if (!this.valueOf()) return " ";
+    
+        var weekName = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+        var weekNameShort = ["일", "월", "화", "수", "목", "금", "토"];
+        var weekNameEng = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+        var d = this;
+    
+        return f.replace(/(yyyy|yy|MM|dd|EE|E|e|hh|mm|ss|mi|a\/p)/gi, function($1) {
+            switch ($1) {
+                case "yyyy": return d.getFullYear();
+                case "yy": return (d.getFullYear() % 1000).zf(2);
+                case "MM": return (d.getMonth() + 1).zf(2);
+                case "dd": return d.getDate().zf(2);
+                case "E": return weekNameShort[d.getDay()];
+                case "EE": return weekName[d.getDay()];
+                case "e": return weekNameEng[d.getDay()];
+                case "HH": return d.getHours().zf(2);
+                case "hh": return ((h = d.getHours() % 12) ? h : 12).zf(2);
+                case "mm": return d.getMinutes().zf(2);
+                case "ss": return d.getSeconds().zf(2);
+                case "mi": return d.getMilliseconds().zf(3);
+                case "a/p": return d.getHours() < 12 ? "오전" : "오후";
+                default: return $1;
+            }
+        });
+    };
+    
+    String.prototype.string = function(len){var s = '', i = 0; while (i++ < len) { s += this; } return s;};
+    String.prototype.zf = function(len){return "0".string(len - this.length) + this;};
+    Number.prototype.zf = function(len){return this.toString().zf(len);};
     this.elId = option.elId;
     if (!this.elId) return false;
 
@@ -35,10 +65,10 @@ let youGmiCalendar = function (option) {
             else if (weekDateList[i].getDay() == 5) day = "금";
             else if (weekDateList[i].getDay() == 6) day = "토";
             tableHtml += `
-                <tr class="cell-day type-week">
+                <tr class="cell-day type-week" date="${weekDateList[i].format('yyyy-MM-dd')}">
                     <th>${day}</th>
                     <td>${weekDateList[i].getDate()}일</td>
-                    <td></td>
+                    <td class="remarks"></td>
                 </tr>
             `;
         }
@@ -86,9 +116,9 @@ let youGmiCalendar = function (option) {
         for (var i = 0; i <= total; i++) {
             var calcIdx = i - startDay;
             if (i == 0 || i % 7 == 0) {
-                tableHtml += MonthDateList[calcIdx] ? `<tr><td class="cell-day type-month">${MonthDateList[calcIdx].getDate()}</td>` : `<tr><td class="cell-day type-month"></td>`;
+                tableHtml += MonthDateList[calcIdx] ? `<tr><td class="cell-day type-month" date="${MonthDateList[calcIdx].format('yyyy-MM-dd')}">${MonthDateList[calcIdx].getDate()}</td>` : `<tr><td class="cell-day type-month"></td>`;
             } else {
-                tableHtml += MonthDateList[calcIdx] ? `<td class="cell-day type-month">${MonthDateList[calcIdx].getDate()}</td>` : `<td class="cell-day type-month"></td>`;
+                tableHtml += MonthDateList[calcIdx] ? `<td class="cell-day type-month" date="${MonthDateList[calcIdx].format('yyyy-MM-dd')}">${MonthDateList[calcIdx].getDate()}</td>` : `<td class="cell-day type-month"></td>`;
                 if(i != 0 & i % 7 == 6 ) {
                     tableHtml += `</tr>`;
                 }
@@ -145,22 +175,43 @@ let youGmiCalendar = function (option) {
 
     //선택한 일자 모두 가져오기 return type Date
     this.getSelectedDate = function(){
-        var aa = this.getMonth();
-        $(document).on("click",".cell-day",function(){
-            var dayArr = []; 
-            $(".cell-day").each(function(i,e) {
-                if($(this).hasClass("event-active")) {
-                    for(var i = 0; i < aa.length; i++) {
-                        if($(this).text() == aa[i].getDate()) {
-                            dayArr.push(aa[i]);
-                        }
-                    }
-                }
-            })
-            console.log('dayArr: ', dayArr);
+        var dayArr = []; 
+        $(".cell-day.event-active").each(function(i,item){
+            dayArr.push($(item).attr("date"));
         });
-        // return dayArr;
+        console.log('dayArr: ', dayArr);
+        return dayArr;
+    }
+    //이벤트 등록 
+    this.addEvent = function(event){
+        console.log('event: ', event);
+        var tempThis = this;
+        $(".cell-day").each(function(i,item){
+            var html = ``;
+            if($(item).attr("date") == event.date) {
+                html += `<span class="event-badge" data-event='${JSON.stringify(event)}'>${event.title}</span>`;
+                if (tempThis.type == "W") {
+                    $(item).find(".remarks").append(html);
+                    console.log("wwwww");
+                }else {
+                    $(item).append(html);
+                }
+            }
+        })
+
     };
+     //모든 이벤트 조회 return type Array<Date>
+     this.getAllEvent = function(eventDate){
+         var eventList = [];
+        $(".event-badge").each(function(i,item){
+            var event = JSON.parse($(item).attr("data-event"));
+            if(eventDate == event.date){
+                eventList.push(event);
+            }
+        });
+        console.log(eventList);
+     }
+
 
     // 초기화 함수
     this.init = function(){
@@ -174,13 +225,6 @@ let youGmiCalendar = function (option) {
         this.getSelectedDate();
     } 
 
-    // //선택한 일자 모두 가져오기 return type Date
-    // this.getSelectedDate();
-    // //이벤트 등록 return type void
-    // this.setEvent({
-    //     date: "2019-05-20",
-    //     desc: "생일"
-    // });
     // //모든 이벤트 조회 return type Array<Date>
     // this.getAllEvent();
     // //지정 일자 이벤트 조회 return type eventObject
