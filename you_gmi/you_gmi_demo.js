@@ -39,7 +39,7 @@ let youGmiCalendar = function (option) {
     this.dateStr = new Date(); // 보여지는 기준일 
     this.type = "M"; // 캘린더 타입
     this.selectAble = false; // 달력선택 가능여부
-    this.isChangeBtn - false; // 이전다음버튼 유무
+    this.isChangeBtn = false; // 이전다음버튼 유무
 
     if (option.dateStr) this.dateStr = new Date(option.dateStr); // 보여지는 기준일 
     if (option.type) this.type = option.type; // 캘린더 타입
@@ -219,7 +219,7 @@ let youGmiCalendar = function (option) {
      //해당날짜의 이벤트 조회 return type Array Date
      this.getEvent = function(eventDate){
          var eventList = [];
-        $(".event-badge").each(function(i,item){
+        $(".event-badge").each(function(i,item){ 
             var event = JSON.parse($(item).attr("data-event"));
             if(eventDate == event.date){
                 eventList.push(event);
@@ -239,7 +239,6 @@ let youGmiCalendar = function (option) {
     }
 
     this.Eventbind = function(){
-
         $(document).on("click",".btn-change",function(e){
             if ($(e.target).hasClass("prev")) {
                 console.log("prev");
@@ -250,6 +249,12 @@ let youGmiCalendar = function (option) {
         }.bind(this))
 
     }
+    //일자 설정
+    //설정후에는 자동으로 초기화 되어 해당 일자가 포함된 월이 표기됨
+    // this.setDate = function (dateStr){
+    //     this.dateStr = dateStr;
+    //     this.mkMonthCalenar();
+    // }
     // 초기화 함수
     this.init = function(){
         // 달력타입
