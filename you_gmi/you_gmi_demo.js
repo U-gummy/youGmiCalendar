@@ -52,7 +52,7 @@ let youGmiCalendar = function (option) {
         var headTxt = weekDateList[0].getMonth()+1;
         var toolbarHtml = ``;
         var tableHtml = ``;
-        toolbarHtml += ` <div class="ygm-c-toolbar"><h2>${headTxt}월</h2></div>`;
+        toolbarHtml += ` <div class="ygm-c-toolbar"><h2>${headTxt}월</h2><button type="button" class="btn-calendar" onclick="${this.EventPopUp()}">일정등록</button></div>`;
         tableHtml += `
             <table class="ygm-c-content type-week">
             <thead class="ygm-c-head">
@@ -71,7 +71,7 @@ let youGmiCalendar = function (option) {
             tableHtml += `<th class="cell-day type-week">${day}</th>`;
         }
         tableHtml += `</tr></thead>
-                <tbody class="ygm-c-body">
+        <tbody class="ygm-c-body">
         `;
         for(var i = 0; i < 24; i++) {
             tableHtml += `<tr>`;
@@ -247,8 +247,43 @@ let youGmiCalendar = function (option) {
                 console.log("next");
             }
         }.bind(this))
-
     }
+
+    this.EventPopUp = function(){
+        var html = ``;
+        html += `
+        <div class="ygm-c-popup-wrapper">
+            <div class="ygm-c-popup-wrap">
+                <h3 class="ygm-c-pop-tit">제목</h3>
+                <div class="ygm-c-pop-input-box">
+                    <input type="text" placeholder="제목" />
+                </div>
+                <h3 class="ygm-c-pop-tit">메모</h3>
+                <div class="ygm-c-pop-input-box">
+                    <input type="text" placeholder="메모" />
+                </div>
+                <h3 class="ygm-c-pop-tit">시작</h3>
+                <div class="ygm-c-pop-input-box">
+                    <input type="date" placeholder="시작" />
+                    <input type="time" placeholder="시작" />
+                </div>
+                <h3 class="ygm-c-pop-tit">종료</h3>
+                <div class="ygm-c-pop-input-box">
+                    <input type="date" placeholder="종료" />
+                    <input type="time" placeholder="종료" />
+                </div>
+                <div class="ygm-c-pop-btn-box">
+                    <button type="button" class="ygm-c-btn-basic">취소</button>
+                    <button type="button" class="ygm-c-btn-basic">일정등록하기</button>
+                </div>
+            </div>
+        </div>
+        <div class="ygm-c-popup-dim"></div>
+        `
+        $("#"+this.elId).append(html);
+    };
+
+    
     //일자 설정
     //설정후에는 자동으로 초기화 되어 해당 일자가 포함된 월이 표기됨
     // this.setDate = function (dateStr){
@@ -288,3 +323,36 @@ let youGmiCalendar = function (option) {
     this.init();
 
 };
+
+
+
+
+/**
+ * 
+ * 이벤트 Object 정의
+ * [notice] 일정 시작,종료시간이 없으면 AllDay 일정으로 그날 하루의 모든일정이 된다.
+ * date = String 형식의 일자 (yyyy-MM-dd)
+ * sTime = 일정 시작시간 (hh:mm)
+ * eTime = 일정 종료시간 (hh:mm)
+ * title = 일정제목
+ * desc  = 일정설명
+ * 
+ * Example) 
+   let event = {
+        date : "2019-05-20" // Type String (format 'yyyy-MM-dd')
+        ,sTime : "19:50" // Type String (format 'hh:mm' , 24H) 
+        ,eTime : "20:00" // Type String (format 'hh:mm' , 24H) 
+        ,title : "먼지밥주기" // Type String
+        ,desc : "사료통에서 먼지밥 꺼내주기" // Type String
+    }
+ */
+
+ /**
+  * mission 1. 주간 캘린더 뿌리기  (SUCCESS)
+  * mission 2. 주간 캘린더 시간별로 뿌리기 (24시간) (SUCCESS)
+  * mission 3. 주간 캘린더에 일정 표기하기 (일정이 시간된 칸 전체 칠하기 ex: 12시 20분 ~ 15시 30분 > 12시~15시칸 전체 칠하기 ) (SUCCESS)
+  * mission 4. 일정을 시간에 맞게 대략적인 높이 표현 ( 12:40 ~ 14:10  => 12시칸에 60%  칠하고 14시칸에 15% 정도 칠하게 (시간비례색칠) )
+  */
+
+
+

@@ -28,17 +28,27 @@
             calendar.getSelectedDate();
         })
         // 이벤트 등록
-        calendar.addEvent({title: "테스트01", date : "2020-02-04" , desc : "01_테스트일정입니다."});
+        // calendar.addEvent({ date : "2020-02-04" ,sTime : "19:50" ,eTime : "20:00" , title: "먼지밥주기", desc : "사료통에서 먼지밥 꺼내주기"});
         calendar.addEvent({title: "테스트02", date : "2020-02-04" , desc : "02_테스트일정입니다."});
-        calendar.addEvent({title: "테스트03", date : "2020-02-05" , desc : "03_테스트일정입니다."});
-        calendar.addEvent({title: "테스트04", date : "2020-02-09" , desc : "04_테스트일정입니다."});
-        calendar.addEvent({title: "테스트05", date : "2020-02-09" , desc : "05_테스트일정입니다."});
+        // calendar.addEvent({title: "테스트03", date : "2020-02-05" , desc : "03_테스트일정입니다."});
+        // calendar.addEvent({title: "테스트04", date : "2020-02-09" , desc : "04_테스트일정입니다."});
+        // calendar.addEvent({title: "테스트05", date : "2020-02-09" , desc : "05_테스트일정입니다."});
+
+
+
+        // date : "2019-05-20" // Type String (format 'yyyy-MM-dd')
+        // ,sTime : "19:50" // Type String (format 'hh:mm' , 24H) 
+        // ,eTime : "20:00" // Type String (format 'hh:mm' , 24H) 
+        // ,title : "먼지밥주기" // Type String
+        // ,desc : "사료통에서 먼지밥 꺼내주기" // Type String
+
+
         // 해당일자 이벤트 조회
-        calendar.getEvent("2020-02-04");
-        calendar.getEvent("2020-02-08");
+        // calendar.getEvent("2020-02-04");
+        // calendar.getEvent("2020-02-08");
 
         // 해당 월,주 모든 이벤트 조회
-        calendar.getAllEvent();
+        // calendar.getAllEvent();
     </script>
 
 </body>

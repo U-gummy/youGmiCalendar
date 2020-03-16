@@ -28,3 +28,19 @@ table {border-spacing:0;}
 /*event-badge*/
 .ygm-calendar-wrap .ygm-c-content .event-badge {display:block;/*width:8px;height:8px;*/border-radius:5px;background:rgb(226, 215, 54);/*font-size:0;*/}
 .ygm-calendar-wrap .ygm-c-content .event-badge + .event-badge {margin-top:3px;}
+
+
+
+/*popup*/
+.ygm-c-popup-wrapper {position:fixed;top:50%;left:50%;min-width:70%;border-radius:20px;background:#fff;transform:translate(-50%, -50%);z-index:10;}
+.ygm-c-popup-wrap {padding:50px;}
+.ygm-c-pop-tit {margin-top:15px;font-size: 20px;font-weight:400;}
+.ygm-c-pop-tit:first-child {margin-top:0;}
+.ygm-c-pop-input-box {display:flex;width:100%;margin-top:10px;}
+.ygm-c-pop-input-box input {flex:1;height:40px;border:1px solid #ccc;border-radius:5px;text-indent:5px;}
+.ygm-c-pop-input-box input[type="text"] {text-indent:15px;}
+.ygm-c-pop-input-box input + input {margin-left:10px;}
+.ygm-c-pop-btn-box {display:flex;width:100%;margin-top:20px;}
+.ygm-c-pop-btn-box .ygm-c-btn-basic {flex:1;height:50px;border:1px solid #ccc;background: #eee;}
+.ygm-c-pop-btn-box .ygm-c-btn-basic + .ygm-c-btn-basic  {margin-left:15px;}
+.ygm-c-popup-dim {position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(0,0,0,0.5);}
